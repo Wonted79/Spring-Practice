@@ -1,4 +1,4 @@
-package hello.servlet.basic;
+package hello.servlet.basic.response;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,15 +19,15 @@ public class ResponseHeaderServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
 
         //[response-headers]
-        //response.setHeader("Content-Type","text/plain;charset=utf-8");
+        response.setHeader("Content-Type","text/plain;charset=utf-8");
         //cache 없애기
         response.setHeader("Cache-Control", "no-cache,no-store,must-revalidate");
         response.setHeader("Pragma","no-cache");
         response.setHeader("my-header","hello");
         
         //[Header 편의 매서드]
-        content(response);
-        cookie(response);
+        //content(response);
+        //cookie(response);
         redirect(response);
         PrintWriter writer = response.getWriter();
         writer.print("ok");
@@ -52,7 +52,12 @@ public class ResponseHeaderServlet extends HttpServlet {
         response.addCookie(cookie);
     }
 
-    private void redirect(HttpServletResponse response) {
+    private void redirect(HttpServletResponse response) throws IOException {
+        //Status Code 302
+        //Location: /basic/hello-form.html
+        response.setStatus(HttpServletResponse.SC_FOUND); //302
+        response.setHeader("Location", "/basic/hello-form.html");
+        //response.sendRedirect("/basic/hello-form.html");
     }
 
 }
